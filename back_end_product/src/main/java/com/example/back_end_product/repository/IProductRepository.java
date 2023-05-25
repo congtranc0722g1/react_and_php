@@ -26,13 +26,13 @@ public interface IProductRepository extends JpaRepository<Product, Integer> {
 
     @Modifying
     @Transactional
-    @Query(value = "insert into product(name, price, description) value (:name, :price, :description)", nativeQuery = true)
-    void createProduct(@Param("name") String name, @Param("price") Double price, @Param("description") String description);
+    @Query(value = "insert into product(name, price, description, category_id) value (:name, :price, :description, :categoryId)", nativeQuery = true)
+    void createProduct(@Param("name") String name, @Param("price") Double price, @Param("description") String description, @Param("categoryId") Integer categoryId);
 
     @Modifying
     @Transactional
-    @Query(value = "update product set name =:name, price =:price, description =:description where id =:id", nativeQuery = true)
-    void updateProduct(@Param("name") String name, @Param("price") Double price, @Param("description") String description, @Param("id") Integer id);
+    @Query(value = "update product set name =:name, price =:price, description =:description, category_id =:categoryId where id =:id", nativeQuery = true)
+    void updateProduct(@Param("name") String name, @Param("price") Double price, @Param("description") String description, @Param("categoryId") Integer categoryId, @Param("id") Integer id);
 
     @Query(value = "select * from product where name like concat('%', :name, '%')", nativeQuery = true)
     List<Product> findName(@Param("name") String name);

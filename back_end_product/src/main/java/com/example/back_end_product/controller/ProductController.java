@@ -1,6 +1,9 @@
 package com.example.back_end_product.controller;
 
+import com.example.back_end_product.dto.ProductDto;
+import com.example.back_end_product.model.Category;
 import com.example.back_end_product.model.Product;
+import com.example.back_end_product.service.ICategoryService;
 import com.example.back_end_product.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,6 +24,9 @@ public class ProductController {
     @Autowired
     private IProductService productService;
 
+    @Autowired
+    private ICategoryService categoryService;
+
     @GetMapping("/products")
     private ResponseEntity<Page<Product>> showProductList(@PageableDefault(size = 2) Pageable pageable){
         Page<Product> productList = null;
@@ -29,8 +35,8 @@ public class ProductController {
     }
 
     @PostMapping("/create")
-    private ResponseEntity<?> createProduct(@RequestBody Product product){
-        productService.createProduct(product.getName(), product.getPrice(), product.getDescription());
+    private ResponseEntity<?> createProduct(@RequestBody ProductDto productDto){
+        productService.createProduct(productDto.getName(), productDto.getPrice(), productDto.getDescription(), productDto.getCategory());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -46,8 +52,8 @@ public class ProductController {
     }
 
     @PutMapping("/update")
-    private ResponseEntity<?> updateProduct(@RequestBody Product product){
-        productService.updateProduct(product.getName(), product.getPrice(), product.getDescription(), product.getId());
+    private ResponseEntity<?> updateProduct(@RequestBody ProductDto productDto){
+        productService.updateProduct(productDto.getName(), productDto.getPrice(), productDto.getDescription(), productDto.getCategory(), productDto.getId());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -62,5 +68,11 @@ public class ProductController {
         List<Product> productList = new ArrayList<>();
         productList = productService.findName(name);
         return new ResponseEntity<>(productList, HttpStatus.OK);
+    }
+
+    @GetMapping("/category")
+    private ResponseEntity<List<Category>> showAllCategory(){
+        List<Category> categoryList = categoryService.findAll();
+        return new ResponseEntity<>(categoryList, HttpStatus.OK);
     }
 }

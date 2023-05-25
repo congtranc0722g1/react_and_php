@@ -1,20 +1,13 @@
-package com.example.back_end_product.model;
+package com.example.back_end_product.dto;
 
-import javax.persistence.*;
-
-@Entity
-public class Product {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class ProductDto {
     private Integer id;
     private String name;
     private Double price;
     private String description;
-    @ManyToOne
-    @JoinColumn(name = "category_id", referencedColumnName = "id")
-    private Category category;
+    private Integer category;
 
-    public Product() {
+    public ProductDto() {
     }
 
     public Integer getId() {
@@ -49,11 +42,11 @@ public class Product {
         this.description = description;
     }
 
-    public Category getCategory() {
+    public Integer getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(Integer category) {
         this.category = category;
     }
 }

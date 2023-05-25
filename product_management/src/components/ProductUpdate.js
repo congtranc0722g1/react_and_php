@@ -2,6 +2,7 @@ import { useParams } from 'react-router-dom';
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup"
 import * as ProductService from "./../service/ProductService"
+import * as CategoryService from "./../service/CategoryService"
 import { useNavigate, useLocation } from "react-router-dom";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -13,6 +14,13 @@ function ProductUpdate() {
     let navigate = useNavigate();
     let location = useLocation();
     const { id } = useParams();
+
+    const  [categoryList, setCategoryList] = useState([]);
+
+    const getListCategory = async () => {
+        const categorys = await CategoryService.getAll();
+        setCategoryList(categorys);
+    }
 
     const [product, setProduct] = useState({ name: "Công", price: 0 });
 
@@ -43,18 +51,18 @@ function ProductUpdate() {
     }
 
     useEffect(() => {
-        getProduct(id)
+        getProduct(id);
+        getListCategory();
     }, [])
 
     return (
         <>
             {console.log(location)}
             <Formik enableReinitialize={true}
-                initialValues={{ id: id, name: product.name, price: product.price, description: product.description }}
+                initialValues={{ id: id, name: product.name, price: product.price, description: product.description, category: product.category?.id}}
 
                 onSubmit={(values) => {
                     const updateProduct = async () => {
-                        console.log(values);
                         await ProductService.updateProduct(values)
                         navigate("/")
                         toast.success("Chỉnh sửa thành công")
@@ -107,6 +115,27 @@ function ProductUpdate() {
 
                             </div>
                         </div>
+
+                        <div class="row align-items-center pt-4 pb-4">
+        <div class="col-md-2 ps-3">
+
+            <label style={{fontWeight: "bold"}} for="category" class="mb-0">Danh mục</label>
+
+        </div>
+        <div class="col-md-10 pe-4">
+
+            <Field as="select" id="category" name="category" placeholder="Nhập mô tả"
+                   class="form-control form-control-md">
+                    <option value="">Chọn danh mục</option>
+
+                    {categoryList.map((category, index) => (
+                        <option key={index} value={category.id}>{category.name}</option>
+                    ))}
+                   </Field>
+                   <p style={{color: "red"}}><ErrorMessage name="category"/></p>
+
+        </div>
+    </div>
 
                         <div className=" text-center">
                             <button type="submit" className="btn btn-primary m-4 w-25">Chỉnh sửa</button>

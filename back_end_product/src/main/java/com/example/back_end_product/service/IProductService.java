@@ -13,9 +13,9 @@ public interface IProductService {
 
     Product findProduct(Integer id);
 
-    void createProduct(String name, Double price, String description);
+    void createProduct(String name, Double price, String description, Integer categoryId);
 
-    void updateProduct(String name, Double price, String description, Integer id);
+    void updateProduct(String name, Double price, String description, Integer categoryId, Integer id);
 
     List<Product> findName(String name);
 }

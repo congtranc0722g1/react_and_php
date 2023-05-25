@@ -32,13 +32,13 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public void createProduct(String name, Double price, String description) {
-        productRepository.createProduct(name, price, description);
+    public void createProduct(String name, Double price, String description, Integer categoryId) {
+        productRepository.createProduct(name, price, description, categoryId);
     }
 
     @Override
-    public void updateProduct(String name, Double price, String description, Integer id) {
-        productRepository.updateProduct(name, price, description, id);
+    public void updateProduct(String name, Double price, String description, Integer categoryId, Integer id) {
+        productRepository.updateProduct(name, price, description, categoryId, id);
     }
 
     @Override

@@ -85,6 +85,7 @@ function ProductList() {
                             <th>Tên</th>
                             <th>Giá</th>
                             <th>Mô tả</th>
+                            <th>Danh mục</th>
                             <th>Chỉnh Sửa</th>
                             <th>Xóa</th>
                         </tr>
@@ -96,6 +97,7 @@ function ProductList() {
                                 <td>{product.name}</td>
                                 <td>{product.price}</td>
                                 <td>{product.description}</td>
+                                <td>{product.category.name}</td>
                                 <td><Link to={"/edit/" + product.id}><button className="btn btn-primary">Chỉnh sửa</button></Link></td>
                                 <td><button className="btn btn-danger" onClick={() => deleteProduct(product.id, product.name)}>Xóa</button></td>
                             </tr>
